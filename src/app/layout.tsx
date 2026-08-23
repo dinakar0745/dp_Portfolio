@@ -9,16 +9,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://dp.ntechx.dev"),
   title: "Dinakar Pathakota",
   description:
-    "Backend and systems engineer building large-scale imaging pipelines and AI infrastructure.",
+    "Software developer and computational pathology researcher. Whole-slide image analysis, GPU-accelerated ML systems, and large-scale image pipelines.",
   keywords: [
-    "backend engineer",
-    "systems engineer",
+    "computational pathology",
     "whole slide imaging",
+    "medical imaging",
+    "deep learning",
+    "graph neural networks",
+    "backend engineer",
     "distributed systems",
-    "cloud infrastructure",
   ],
+  openGraph: {
+    title: "Dinakar Pathakota",
+    description:
+      "Software developer and computational pathology researcher. Whole-slide image analysis, GPU-accelerated ML systems, and large-scale image pipelines.",
+    url: "https://dp.ntechx.dev",
+    siteName: "Dinakar Pathakota",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

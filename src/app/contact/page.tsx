@@ -14,8 +14,8 @@ export default function ContactPage() {
       >
         <h1 className="text-3xl font-bold text-text-primary mb-3">Contact</h1>
         <p className="text-sm text-text-secondary max-w-xl">
-          Open to new opportunities, collaborations, and interesting engineering
-          conversations.
+          Open to research collaborations, doctoral opportunities in
+          medical-imaging ML, and interesting engineering conversations.
         </p>
       </motion.div>
 
@@ -103,20 +103,32 @@ export default function ContactPage() {
 
               <div className="flex gap-2 mt-3">
                 <span className="text-accent shrink-0">$</span>
+                <span className="text-text-secondary">cat role.txt</span>
+              </div>
+              <div className="pl-4 space-y-0.5 text-text-secondary">
+                <p>software developer @ systems group</p>
+                <p>independent research — computational pathology</p>
+              </div>
+
+              <div className="flex gap-2 mt-3">
+                <span className="text-accent shrink-0">$</span>
                 <span className="text-text-secondary">cat interests.txt</span>
               </div>
               <div className="pl-4 space-y-0.5 text-text-secondary">
-                <p>- Large-scale imaging pipelines</p>
-                <p>- Distributed systems</p>
-                <p>- Cloud infrastructure</p>
-                <p>- AI/ML systems</p>
+                <p>- Computational pathology &amp; WSI analysis</p>
+                <p>- Deep learning for medical imaging</p>
+                <p>- Large-scale image pipelines</p>
+                <p>- GPU-accelerated ML systems</p>
+                <p>- Graph neural networks</p>
               </div>
 
               <div className="flex gap-2 mt-3">
                 <span className="text-accent shrink-0">$</span>
                 <span className="text-text-secondary">echo $AVAILABILITY</span>
               </div>
-              <p className="text-success pl-4">open to opportunities</p>
+              <p className="text-success pl-4">
+                open to research collaboration
+              </p>
 
               <div className="flex gap-2 mt-3">
                 <span className="text-accent shrink-0">$</span>

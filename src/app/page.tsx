@@ -4,14 +4,16 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowUpRight,
-  Github,
+  Award,
+  Boxes,
   Download,
-  Server,
-  Cloud,
-  Cpu,
-  GitBranch,
-  Database,
+  FileText,
+  Github,
+  GraduationCap,
+  Microscope,
+  Network,
   Terminal,
+  Workflow,
 } from "lucide-react";
 
 const fadeUp = {
@@ -23,63 +25,169 @@ const fadeUp = {
   }),
 };
 
+const researchThreads = [
+  {
+    title: "WSI inference platform",
+    body: "Running detection models over gigapixel slides — tumour-cell and mitotic-figure detection — covering slide ingestion, tiling, model execution, and region-level result aggregation.",
+    status: "In progress",
+  },
+  {
+    title: "Lymph-node metastasis detection (CAMELYON)",
+    body: "A deep-learning study on metastasis detection in whole-slide images from the CAMELYON dataset, targeting a preprint.",
+    status: "Targeting preprint",
+  },
+  {
+    title: "Vertical WSI/ML for veterinary & toxicologic pathology",
+    body: "A technical and market brief on preclinical, non-regulated pathology — gigapixel imaging demands comparable to the clinical setting, with far lower regulatory friction. Moving from scoping into implementation.",
+    status: "Scoping → build",
+  },
+];
+
+const manuscripts = [
+  {
+    title:
+      "Graph-neural-network–based smart contract vulnerability auditing",
+    note: "Detection module contributed to an academic manuscript",
+  },
+  {
+    title:
+      "Deep-learning detection of lymph-node metastases on whole-slide images (CAMELYON)",
+    note: "Study in progress",
+  },
+];
+
+const experience = [
+  {
+    role: "Software Developer",
+    org: "Systems Group",
+    orgNote: "Hyderabad, India",
+    period: "Jun 2026 — Present",
+    current: true,
+    bullets: [
+      "Build scalable internal applications and backend systems; ship production services with FastAPI, PostgreSQL, and Docker",
+      "Delivered ProjectFlow, a self-hosted project tracker (FastAPI + PostgreSQL + Next.js) with OTP email auth, Alembic migrations, GitHub Actions CI, and VM deployment",
+      "Build in-house software for the parent company, Saridena Constructions, alongside customized tools for client requirements",
+    ],
+    tech: ["FastAPI", "PostgreSQL", "Docker", "Next.js", "GitHub Actions"],
+  },
+  {
+    role: "Engineering Intern — Whole-Slide Imaging Pipelines",
+    org: "Evident Microscopy",
+    orgNote: "formerly Pramana.ai",
+    period: "Internship",
+    current: false,
+    bullets: [
+      "Engineered DICOM-based ingestion and processing pipelines for gigapixel whole-slide histopathology images, supporting both sparse and fully-tiled acquisition modes",
+      "Built GPU assignment and scheduling scripts to distribute tile-processing workloads across devices, improving throughput on large slide volumes",
+      "Designed RabbitMQ message routing across Python microservices to coordinate acquisition, tiling, and downstream image-processing stages",
+      "Contributed C++ acquisition modules interfacing with microscopy hardware, integrated into the end-to-end imaging pipeline",
+    ],
+    tech: ["Python", "C++", "DICOM", "RabbitMQ", "GPU Scheduling", "Linux"],
+  },
+];
+
 const projects = [
   {
-    slug: "sagemaker",
-    title: "Serverless ML Deployment",
-    subtitle: "AWS SageMaker",
+    slug: "wsi-detection-platform",
+    title: "WSI Detection Platform",
+    subtitle: "Gigapixel Pathology Inference",
     description:
-      "Scalable architecture for deploying ML models using SageMaker with serverless inference endpoints and automated scaling.",
-    tags: ["AWS", "SageMaker", "Python", "MLOps"],
-    icon: <Cloud size={18} />,
+      "Platform for running AI detection models across whole-slide images — pathology model execution over gigapixel inputs with tiled inference and result aggregation.",
+    tags: ["Python", "PyTorch", "OpenSlide", "GPU", "DICOM"],
+    icon: <Microscope size={18} />,
   },
   {
-    slug: "fraud-detection",
-    title: "Fraud Detection System",
-    subtitle: "ML Pipeline",
+    slug: "nexus-os",
+    title: "NEXUS OS",
+    subtitle: "Bootable AI Operating Environment",
     description:
-      "End-to-end ML pipeline for detecting fraudulent transactions using anomaly detection and feature engineering.",
-    tags: ["Python", "scikit-learn", "FastAPI", "PostgreSQL"],
-    icon: <Database size={18} />,
+      "ReAct-style agent orchestrator with skill auto-discovery, a permission model, and a FastAPI server — packaged as a bootable Linux distribution.",
+    tags: ["FastAPI", "Linux", "Agents", "RAG", "Vision"],
+    icon: <Boxes size={18} />,
   },
   {
-    slug: "aiforge",
-    title: "AIForge",
-    subtitle: "AI Model Marketplace",
+    slug: "document-ai",
+    title: "Local Document-AI Pipeline",
+    subtitle: "On-Prem OCR + LLM Extraction",
     description:
-      "Open platform for sharing, downloading, and running AI agents and ML models locally. Developer-first model marketplace.",
-    tags: ["Django", "React", "Vite", "Docker"],
-    icon: <Cpu size={18} />,
+      "Fully local pipeline for structured extraction from scanned documents, with canonical item matching and a comparison dashboard, running on a GPU workstation.",
+    tags: ["pdfplumber", "Tesseract", "Ollama", "Python"],
+    icon: <FileText size={18} />,
   },
   {
-    slug: "aws-webserver",
-    title: "Automated AWS Deployment",
-    subtitle: "Infrastructure as Code",
+    slug: "projectflow",
+    title: "ProjectFlow",
+    subtitle: "Self-Hosted Project Tracker",
     description:
-      "Automated infrastructure setup for deploying web servers on EC2 with secure VPC architecture and scalable config.",
-    tags: ["AWS", "EC2", "VPC", "Bash"],
-    icon: <Server size={18} />,
+      "Production project tracker with OTP email auth, Alembic migrations, GitHub Actions CI, and VM deployment — shipped for internal and client use.",
+    tags: ["FastAPI", "PostgreSQL", "Next.js", "Docker"],
+    icon: <Workflow size={18} />,
   },
 ];
 
 const skills = [
-  { category: "Languages", items: ["Python", "JavaScript", "C++"] },
-  { category: "Backend", items: ["Django", "REST APIs", "Microservices"] },
+  {
+    category: "ML & Research",
+    items: [
+      "Deep learning",
+      "Graph neural nets",
+      "RAG",
+      "Agent orchestration",
+    ],
+  },
+  {
+    category: "Medical Imaging",
+    items: [
+      "WSI / gigapixel",
+      "DICOM",
+      "Image tiling",
+      "Object detection",
+      "Dataset curation",
+    ],
+  },
+  {
+    category: "Languages",
+    items: ["Python", "C++", "Java", "TypeScript", "SQL"],
+  },
   {
     category: "Systems",
-    items: ["Linux", "RabbitMQ", "Distributed Systems"],
+    items: [
+      "Docker",
+      "FastAPI",
+      "PostgreSQL",
+      "RabbitMQ",
+      "Linux / systemd",
+      "GitHub Actions",
+    ],
   },
-  { category: "Cloud", items: ["AWS", "EC2", "SageMaker"] },
-  { category: "AI/ML", items: ["TensorFlow", "ML Pipelines", "Model Deploy"] },
+  {
+    category: "Cloud & Compute",
+    items: ["AWS", "GCP", "Azure", "GPU compute", "Distributed inference"],
+  },
 ];
 
 const wsiSteps = [
-  "Scanner acquisition",
-  "High-speed data transfer",
-  "Image stitching",
-  "Preprocessing",
-  "Algorithm analysis",
+  "Slide ingestion (DICOM)",
+  "Tiling & pyramid build",
+  "GPU assignment",
+  "Model inference",
+  "Region aggregation",
   "Storage & retrieval",
+];
+
+const certifications = [
+  "AWS Certified Cloud Practitioner (CLF-C02)",
+  "Microsoft Certified: Azure Fundamentals",
+  "Google Associate Cloud Engineer",
+  "Automation Anywhere Certified Advanced RPA Professional",
+  "GitHub Foundations",
+];
+
+const leadership = [
+  "Head, Cybersecurity Club — KL University",
+  "Founder, NTechX — AI/ML and cybersecurity venture",
+  "Founder / organizer, 00:00 (Zero Hundred Hours) — youth entrepreneurship community",
+  "Two-time hackathon winner",
 ];
 
 export default function Home() {
@@ -87,16 +195,13 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-6 pt-36 pb-24">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          className="max-w-3xl"
-        >
+        <motion.div initial="hidden" animate="visible" className="max-w-3xl">
           {/* Status badge */}
           <motion.div custom={0} variants={fadeUp} className="mb-8">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs font-mono text-text-secondary bg-bg-secondary">
               <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-              Currently @ Evident Microscopy · Whole Slide Imaging Systems
+              Software Developer @ Systems Group · Independent research in
+              computational pathology
             </span>
           </motion.div>
 
@@ -115,7 +220,7 @@ export default function Home() {
             variants={fadeUp}
             className="text-xl md:text-2xl text-accent font-mono mb-6"
           >
-            Backend &amp; Systems Engineer
+            Backend Systems &amp; Computational Pathology
           </motion.p>
 
           {/* Subtitle */}
@@ -124,7 +229,8 @@ export default function Home() {
             variants={fadeUp}
             className="text-base text-text-secondary leading-relaxed mb-4 max-w-2xl"
           >
-            Building large-scale imaging pipelines and AI infrastructure.
+            Building deep-learning systems and large-scale image pipelines for
+            digital pathology.
           </motion.p>
 
           {/* Description */}
@@ -133,10 +239,10 @@ export default function Home() {
             variants={fadeUp}
             className="text-sm text-text-secondary leading-relaxed mb-10 max-w-2xl"
           >
-            I build production systems that process large-scale microscopy data
-            and power automated medical image analysis. Currently working on
-            Whole Slide Imaging pipelines integrating detection algorithms for
-            cancer and cellular analysis.
+            I work on whole-slide image analysis and the infrastructure that makes
+            it run — GPU-accelerated ML systems, gigapixel image pipelines, and
+            graph neural networks. My long-term interest is building clinically
+            useful, deployable models for digital pathology.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -145,18 +251,18 @@ export default function Home() {
             variants={fadeUp}
             className="flex flex-wrap gap-3"
           >
-            <Link
-              href="/projects"
+            <a
+              href="#research"
               className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-bg text-sm font-medium rounded hover:bg-accent/90 transition-colors"
             >
-              View Projects <ArrowUpRight size={15} />
-            </Link>
+              View Research <ArrowUpRight size={15} />
+            </a>
             <a
               href="/utils/DinakarPathakota_Resume.pdf"
               download
               className="inline-flex items-center gap-2 px-4 py-2 border border-border text-sm text-text-secondary hover:text-text-primary hover:border-accent/50 rounded transition-colors"
             >
-              <Download size={15} /> Download Resume
+              <Download size={15} /> Download CV
             </a>
             <a
               href="https://github.com/dinakar0745"
@@ -175,8 +281,8 @@ export default function Home() {
         <div className="border-t border-border/40" />
       </div>
 
-      {/* Experience */}
-      <section className="max-w-5xl mx-auto px-6 py-16">
+      {/* Research */}
+      <section id="research" className="max-w-5xl mx-auto px-6 py-16 scroll-mt-20">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -184,32 +290,63 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-xs font-mono text-text-secondary uppercase tracking-widest mb-8">
-            Experience
+            Research
           </h2>
 
-          <div className="border border-border rounded-lg bg-bg-secondary p-6 hover:border-accent/30 transition-colors">
+          <div className="border border-border rounded-lg bg-bg-secondary p-6 mb-4">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
               <div>
                 <h3 className="text-base font-semibold text-text-primary">
-                  Software Engineering Intern
+                  Independent Research — Computational Pathology
                 </h3>
                 <p className="text-sm text-accent font-mono mt-0.5">
-                  Evident Microscopy{" "}
-                  <span className="text-text-secondary">(formerly Pramana.ai)</span>
+                  Self-directed program building toward doctoral work in
+                  medical-imaging ML
                 </p>
               </div>
-              <span className="text-xs font-mono text-text-secondary border border-border rounded px-2 py-1 self-start">
-                Present
+              <span className="text-xs font-mono text-text-secondary border border-border rounded px-2 py-1 self-start whitespace-nowrap">
+                2026 — Present
               </span>
             </div>
 
-            <ul className="space-y-1.5 mb-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {researchThreads.map((thread) => (
+                <div
+                  key={thread.title}
+                  className="border border-border rounded p-4 bg-bg"
+                >
+                  <p className="text-sm font-medium text-text-primary mb-2">
+                    {thread.title}
+                  </p>
+                  <p className="text-xs text-text-secondary leading-relaxed mb-3">
+                    {thread.body}
+                  </p>
+                  <span className="text-xs font-mono text-accent">
+                    {thread.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="border border-border rounded-lg bg-bg-secondary p-6">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
+              <div>
+                <h3 className="text-base font-semibold text-text-primary">
+                  NTechX
+                </h3>
+                <p className="text-sm text-accent font-mono mt-0.5">
+                  Founder{" "}
+                  <span className="text-text-secondary">
+                    (applied research in AI/ML and security)
+                  </span>
+                </p>
+              </div>
+            </div>
+            <ul className="space-y-1.5">
               {[
-                "Develop and maintain backend pipelines for Whole Slide Imaging (WSI) systems",
-                "Process gigapixel microscopy images used in pathology workflows",
-                "Integrate detection algorithms for identifying cancer cells, bone marrow cells, and pathological features",
-                "Build backend services for image processing, data transfer, and pipeline orchestration",
-                "Work with high-throughput imaging hardware and automated diagnostic workflows",
+                "Developed a graph neural network model for automated smart-contract vulnerability auditing; contributed the core detection module for an academic manuscript",
+                "Led the venture end-to-end: research direction, model development, and technical execution",
               ].map((bullet, i) => (
                 <li
                   key={i}
@@ -220,19 +357,103 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+          </div>
 
-            <div className="flex flex-wrap gap-2">
-              {["Python", "RabbitMQ", "Linux", "Distributed Systems", "Image Processing"].map(
-                (tech) => (
-                  <span
-                    key={tech}
-                    className="text-xs font-mono px-2 py-0.5 rounded bg-bg-tertiary border border-border text-text-secondary"
-                  >
-                    {tech}
+          {/* Manuscripts */}
+          <div className="mt-8">
+            <h3 className="text-xs font-mono text-text-secondary uppercase tracking-widest mb-4">
+              Manuscripts &amp; Research Output
+            </h3>
+            <div className="space-y-2">
+              {manuscripts.map((m) => (
+                <div
+                  key={m.title}
+                  className="border border-border rounded-lg bg-bg-secondary p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-accent mt-0.5 shrink-0">
+                      <FileText size={15} />
+                    </span>
+                    <div>
+                      <p className="text-sm text-text-primary">{m.title}</p>
+                      <p className="text-xs text-text-secondary mt-0.5">
+                        {m.note}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono text-warning border border-border rounded px-2 py-1 self-start whitespace-nowrap">
+                    ongoing
                   </span>
-                )
-              )}
+                </div>
+              ))}
             </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Experience */}
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-border/40">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-xs font-mono text-text-secondary uppercase tracking-widest mb-8">
+            Experience
+          </h2>
+
+          <div className="space-y-4">
+            {experience.map((job) => (
+              <div
+                key={job.org}
+                className="border border-border rounded-lg bg-bg-secondary p-6 hover:border-accent/30 transition-colors"
+              >
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
+                  <div>
+                    <h3 className="text-base font-semibold text-text-primary">
+                      {job.role}
+                    </h3>
+                    <p className="text-sm text-accent font-mono mt-0.5">
+                      {job.org}{" "}
+                      <span className="text-text-secondary">
+                        ({job.orgNote})
+                      </span>
+                    </p>
+                  </div>
+                  <span
+                    className={`text-xs font-mono border border-border rounded px-2 py-1 self-start whitespace-nowrap ${
+                      job.current ? "text-success" : "text-text-secondary"
+                    }`}
+                  >
+                    {job.period}
+                  </span>
+                </div>
+
+                <ul className="space-y-1.5 mb-5">
+                  {job.bullets.map((bullet, i) => (
+                    <li
+                      key={i}
+                      className="text-sm text-text-secondary flex items-start gap-2"
+                    >
+                      <span className="text-accent mt-1 shrink-0">›</span>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="flex flex-wrap gap-2">
+                  {job.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-xs font-mono px-2 py-0.5 rounded bg-bg-tertiary border border-border text-text-secondary"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </motion.div>
       </section>
@@ -247,7 +468,7 @@ export default function Home() {
         >
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-xs font-mono text-text-secondary uppercase tracking-widest">
-              Featured Projects
+              Selected Projects
             </h2>
             <Link
               href="/projects"
@@ -319,17 +540,18 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
               <h3 className="text-lg font-semibold text-text-primary mb-3">
-                Whole Slide Imaging Pipelines
+                Whole-Slide Imaging Pipelines
               </h3>
               <p className="text-sm text-text-secondary leading-relaxed mb-4">
-                WSI scanners capture extremely large pathology images that can exceed
-                gigapixel resolution. Processing these images requires specialized
-                pipelines with multiple stages operating at scale.
+                WSI scanners capture pathology images that routinely exceed
+                gigapixel resolution. Nothing about them fits in memory, so the
+                work is in the pipeline: DICOM ingestion, tiling into pyramid
+                levels, and distributing tile workloads across GPUs.
               </p>
               <p className="text-sm text-text-secondary leading-relaxed">
-                These pipelines support automated medical diagnostics and large-scale
-                image analysis including cancer cell detection and cellular marker
-                identification.
+                On top of that sits inference — detection models scoring
+                individual tiles, then aggregation back up to slide- and
+                region-level results a pathologist can actually read.
               </p>
             </div>
 
@@ -367,7 +589,7 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-xs font-mono text-text-secondary uppercase tracking-widest mb-8">
-            Skills
+            Technical Skills
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -392,6 +614,97 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Education & Credentials */}
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-border/40">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-xs font-mono text-text-secondary uppercase tracking-widest mb-8">
+            Education &amp; Credentials
+          </h2>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Education */}
+            <div className="border border-border rounded-lg bg-bg-secondary p-6">
+              <div className="flex items-start gap-3 mb-4">
+                <span className="p-2 rounded bg-bg-tertiary border border-border text-accent shrink-0">
+                  <GraduationCap size={16} />
+                </span>
+                <div>
+                  <h3 className="text-base font-semibold text-text-primary">
+                    B.Tech (Honors), Computer Science &amp; Engineering
+                  </h3>
+                  <p className="text-sm text-accent font-mono mt-0.5">
+                    KL University, Hyderabad{" "}
+                    <span className="text-text-secondary">· 2022 — 2026</span>
+                  </p>
+                </div>
+              </div>
+              <ul className="space-y-1.5">
+                {[
+                  "First Class with Distinction — CGPA 8.86 / 10, 202.5 credits. Graduated April 2026",
+                  "Specialization in Cyber Security & Blockchain",
+                  "Coursework: machine learning, DSA, computer vision & image processing, distributed systems, cryptography & security",
+                ].map((item, i) => (
+                  <li
+                    key={i}
+                    className="text-sm text-text-secondary flex items-start gap-2"
+                  >
+                    <span className="text-accent mt-1 shrink-0">›</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Certifications */}
+            <div className="border border-border rounded-lg bg-bg-secondary p-6">
+              <div className="flex items-start gap-3 mb-4">
+                <span className="p-2 rounded bg-bg-tertiary border border-border text-accent shrink-0">
+                  <Award size={16} />
+                </span>
+                <h3 className="text-base font-semibold text-text-primary pt-1.5">
+                  Certifications
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {certifications.map((cert) => (
+                  <span
+                    key={cert}
+                    className="text-xs font-mono px-2 py-1 rounded bg-bg-tertiary border border-border text-text-secondary"
+                  >
+                    {cert}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-start gap-3 mb-3 pt-4 border-t border-border/60">
+                <span className="p-2 rounded bg-bg-tertiary border border-border text-accent shrink-0">
+                  <Network size={16} />
+                </span>
+                <h3 className="text-base font-semibold text-text-primary pt-1.5">
+                  Leadership &amp; Community
+                </h3>
+              </div>
+              <ul className="space-y-1.5">
+                {leadership.map((item) => (
+                  <li
+                    key={item}
+                    className="text-sm text-text-secondary flex items-start gap-2"
+                  >
+                    <span className="text-accent mt-1 shrink-0">›</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </motion.div>
       </section>
