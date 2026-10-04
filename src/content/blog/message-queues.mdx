@@ -1,0 +1,51 @@
+Message queues are one of the most powerful architectural primitives for building
+large-scale backend systems. They decouple producers from consumers, enable
+asynchronous processing, and provide backpressure mechanisms that prevent
+cascading failures.
+
+## Why Message Queues
+
+In a synchronous system, a slow downstream service blocks the entire request chain.
+A message queue inserts a buffer: producers publish tasks and return immediately,
+while consumers process at their own pace. This enables natural load leveling,
+independent scaling of producers and consumers, and fault isolation.
+
+## RabbitMQ Patterns
+
+<Callout title="Work Queues">
+  Multiple workers competing to consume messages. Used for distributing CPU-intensive tasks like tile processing across a worker pool.
+</Callout>
+
+<Callout title="Publish/Subscribe">
+  Fanout exchange broadcasts a message to all bound queues. Used for broadcasting scan completion events to multiple downstream services.
+</Callout>
+
+<Callout title="Routing">
+  Direct exchange routes messages to queues based on routing keys. Used to route different image types to specialized processors.
+</Callout>
+
+## Reliability Considerations
+
+```python
+# Key RabbitMQ durability settings
+channel.queue_declare(
+    queue='wsi_tasks',
+    durable=True,      # Queue survives broker restart
+)
+
+channel.basic_publish(
+    exchange='',
+    routing_key='wsi_tasks',
+    body=message,
+    properties=pika.BasicProperties(
+        delivery_mode=2,   # Persistent message
+    )
+)
+
+# Acknowledge only after processing
+channel.basic_ack(delivery_tag=method.delivery_tag)
+```
+
+In WSI pipelines, message durability is critical — losing a scan job means
+re-scanning or re-processing expensive slide data. We use persistent messages
+and manual acknowledgements to guarantee at-least-once delivery.

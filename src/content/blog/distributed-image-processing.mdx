@@ -1,0 +1,42 @@
+When a single machine can't keep up with your image processing throughput,
+you need to distribute the work. This post covers the architecture patterns
+we use to build scalable, fault-tolerant image processing pipelines for WSI
+at production scale.
+
+## Core Architecture
+
+<Callout title="Ingestion Service">
+  Watches scanner output directories for new slide files. Validates file integrity via checksum, registers the slide in the database, and publishes a job message to the pipeline queue.
+</Callout>
+
+<Callout title="Worker Pool">
+  Stateless worker processes consume jobs from RabbitMQ. Each worker handles one slide at a time: tile extraction, preprocessing, and batched inference. Workers scale horizontally — add more for higher throughput.
+</Callout>
+
+<Callout title="Inference Server">
+  A separate GPU-backed service that accepts tile batches via gRPC. Decoupling inference from tiling allows the GPU server to be scaled and optimized independently.
+</Callout>
+
+<Callout title="Result Aggregator">
+  Collects per-tile results and assembles slide-level outputs: heatmaps, detection overlays, and structured reports. Publishes completion events for downstream consumers.
+</Callout>
+
+## Fault Tolerance
+
+Workers crash. Disks fill up. Network partitions happen. The pipeline must handle
+all of these gracefully. Key mechanisms: RabbitMQ message acknowledgement ensures
+jobs are requeued on worker failure; idempotent job processing prevents duplicate
+results; dead-letter queues capture jobs that fail repeatedly for inspection.
+
+```python
+# Dead letter queue setup
+channel.queue_declare(
+    queue='wsi_tasks',
+    durable=True,
+    arguments={
+        'x-dead-letter-exchange': 'dlx',
+        'x-message-ttl': 3600000,  # 1hr TTL
+        'x-max-retries': 3
+    }
+)
+```

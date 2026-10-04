@@ -1,12 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --font-jetbrains-mono: 'JetBrains Mono', monospace;
-}
 
 * {
   box-sizing: border-box;
@@ -20,12 +14,24 @@ body {
   overflow-x: hidden;
   background-color: #0d1117;
   color: #e6edf3;
-  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 ::selection {
   background: rgba(88, 166, 255, 0.3);
   color: #e6edf3;
+}
+
+/* Keyboard focus: one visible ring everywhere. */
+:focus-visible {
+  outline: 2px solid #58a6ff;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar {
@@ -47,7 +53,7 @@ body {
 
 /* Code blocks */
 pre {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   background: #161b22;
   border: 1px solid #30363d;
   border-radius: 6px;
@@ -58,7 +64,7 @@ pre {
 }
 
 code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono), monospace;
   font-size: 0.875em;
   background: rgba(88, 166, 255, 0.1);
   padding: 0.15em 0.4em;
@@ -69,6 +75,7 @@ code {
 pre code {
   background: none;
   padding: 0;
+  font-size: inherit;
   color: #e6edf3;
 }
 
@@ -81,4 +88,24 @@ body::before {
   pointer-events: none;
   z-index: 0;
   opacity: 0.4;
+}
+
+/*
+ * 3D depth for tilting cards: on hover, elements marked .lift-1 / .lift-2
+ * rise off the card surface. Only for mouse users who haven't asked for
+ * reduced motion.
+ */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .lift-1,
+  .lift-2 {
+    transition: transform 0.25s ease-out;
+  }
+
+  .group:hover .lift-1 {
+    transform: translateZ(14px);
+  }
+
+  .group:hover .lift-2 {
+    transform: translateZ(28px);
+  }
 }

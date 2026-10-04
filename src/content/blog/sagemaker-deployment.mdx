@@ -1,0 +1,54 @@
+Getting an ML model from a Jupyter notebook into production is one of the
+most underestimated engineering challenges. SageMaker provides a managed
+path that handles a lot of the heavy lifting — but understanding when and
+how to use its serverless capabilities is critical.
+
+## Why Serverless Inference
+
+SageMaker's standard real-time endpoints use always-on instances — you pay
+whether or not requests are coming in. Serverless endpoints scale to zero,
+charging only for invocations and compute time. For low-to-medium traffic
+workloads, this reduces costs dramatically.
+
+## Deployment Steps
+
+```python
+import boto3
+import sagemaker
+from sagemaker.model import Model
+
+session = sagemaker.Session()
+
+# 1. Upload model artifacts to S3
+model_data = session.upload_data(
+    'model.tar.gz',
+    bucket='my-bucket',
+    key_prefix='models/v1'
+)
+
+# 2. Create SageMaker Model
+model = Model(
+    image_uri=container_image,
+    model_data=model_data,
+    role=role,
+)
+
+# 3. Deploy serverless endpoint
+predictor = model.deploy(
+    serverless_inference_config=ServerlessInferenceConfig(
+        memory_size_in_mb=3008,
+        max_concurrency=5,
+    )
+)
+
+# 4. Run inference
+response = predictor.predict(payload)
+```
+
+## Cold Start Mitigation
+
+Serverless endpoints have cold starts — the first request after a period of
+inactivity incurs container initialization time (typically 2–10 seconds).
+Minimize this by keeping container images small, pre-loading model weights
+at container start, and warming the endpoint with scheduled pings if latency
+is critical.

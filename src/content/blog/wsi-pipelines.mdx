@@ -1,0 +1,55 @@
+Whole Slide Imaging (WSI) is the process of digitizing entire glass pathology
+slides into high-resolution digital images. These images can reach resolutions
+of 100,000 × 100,000 pixels — several gigabytes per slide even when compressed.
+Working with them at scale requires purpose-built pipelines.
+
+## What Makes WSI Different
+
+Standard image processing libraries assume images fit in memory. A gigapixel WSI
+does not. A single slide at 40x magnification might be 3–5 GB uncompressed.
+Processing these images requires a fundamentally different approach: tiled access,
+streaming processing, and pyramid representations.
+
+## Pipeline Stages
+
+<Callout title="1. Image Acquisition">
+  WSI scanners (like Hamamatsu, Leica, or Aperio) capture slides at multiple magnification levels and output proprietary formats: .svs, .ndpi, .scn. The scanner firmware handles focus mapping, stitching, and compression internally.
+</Callout>
+
+<Callout title="2. Data Transfer">
+  Large files need reliable, checksummed transfer from scanner to storage. We use high-throughput local network links with SHA-256 verification before ingestion.
+</Callout>
+
+<Callout title="3. Format Conversion & Preprocessing">
+  Proprietary formats are converted to standardized representations using libraries like OpenSlide. Preprocessing includes stain normalization (Macenko or Vahadane methods) to correct for scanner and staining variability.
+</Callout>
+
+<Callout title="4. Tiling for ML">
+  ML algorithms don't operate on gigapixel inputs. The slide is divided into overlapping or non-overlapping tiles (typically 256×256 or 512×512 pixels) at the target magnification. This produces thousands of tiles per slide.
+</Callout>
+
+<Callout title="5. Algorithm Analysis">
+  Detection models run inference over tile batches. Results include bounding boxes, class labels, and confidence scores per tile. These must be mapped back to global slide coordinates.
+</Callout>
+
+<Callout title="6. Result Aggregation & Storage">
+  Per-tile results are aggregated into slide-level summaries. Outputs include annotated overlays, structured reports, and indexed results for downstream retrieval.
+</Callout>
+
+## Key Libraries
+
+```text
+# Core libraries for WSI processing
+openslide-python   # Read .svs, .ndpi, .scn formats
+large_image        # Tile server for large images
+cucim              # GPU-accelerated image I/O (RAPIDS)
+histomicstk        # Stain normalization, analysis
+pyvips             # Fast large image operations
+```
+
+## Scaling Considerations
+
+Processing hundreds of slides per day requires distributed worker architecture.
+Each slide becomes a job submitted to a message queue. Workers pull jobs, process
+tiles in parallel using multiprocessing, and push results to a results store.
+GPU inference servers handle the ML inference step as a separate service.

@@ -1,0 +1,61 @@
+A gigapixel image cannot fit in RAM. The moment you try to load one naively,
+your process runs out of memory. Working with WSI data demands a fundamentally
+different approach to image I/O, processing, and ML inference.
+
+## Tiled Access
+
+Modern WSI formats store images as pyramid tilesets — the same image at multiple
+resolution levels, each split into 256×256 or 512×512 tiles. You never load the
+full image; you request specific tiles at specific zoom levels.
+
+```python
+import openslide
+
+slide = openslide.OpenSlide("sample.svs")
+
+# Image dimensions at full resolution
+print(slide.dimensions)  # (100000, 80000)
+
+# Read a 512x512 tile at level 0 (full res)
+tile = slide.read_region(
+    location=(x, y),   # top-left corner
+    level=0,            # zoom level
+    size=(512, 512)
+)
+
+# Thumbnail for overview
+thumbnail = slide.get_thumbnail((1024, 1024))
+```
+
+## Parallel Tile Processing
+
+A typical 40x slide has ~100,000 tiles. Processing them sequentially is too slow.
+We distribute tiles across a worker pool using Python multiprocessing, with each
+worker holding its own OpenSlide handle (OpenSlide is not thread-safe).
+
+```python
+from concurrent.futures import ProcessPoolExecutor
+from functools import partial
+
+def process_tile(coords, slide_path, model_path):
+    slide = openslide.OpenSlide(slide_path)
+    x, y = coords
+    tile = slide.read_region((x, y), 0, (512, 512))
+    # run inference...
+    return result
+
+tile_coords = generate_tile_coords(slide.dimensions)
+
+with ProcessPoolExecutor(max_workers=8) as executor:
+    results = list(executor.map(
+        partial(process_tile, slide_path=path, model_path=model),
+        tile_coords
+    ))
+```
+
+## Memory Management
+
+Even when tiling, loading tiles into numpy arrays accumulates quickly.
+Key strategies: process tiles in batches and delete references immediately,
+use generators instead of lists for tile sequences, and profile with
+memory\_profiler to catch leaks in long-running pipeline processes.

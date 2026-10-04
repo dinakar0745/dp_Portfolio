@@ -1,2 +1,12 @@
-.next
+# dependencies
 node_modules
+
+# build output
+.next
+out
+.vercel
+*.tsbuildinfo
+
+# local
+.env*.local
+.DS_Store
