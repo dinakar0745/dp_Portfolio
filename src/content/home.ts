@@ -62,7 +62,6 @@ export const venture = {
   role: "Founder",
   roleNote: "(applied research in AI/ML and security)",
   bullets: [
-    "Developed a graph neural network model for automated smart-contract vulnerability auditing; contributed the core detection module for an academic manuscript",
     "Led the venture end-to-end: research direction, model development, and technical execution",
   ],
 };
@@ -74,11 +73,6 @@ export const manuscripts: Manuscript[] = [
     status: "published",
     published: true,
     href: paper.url,
-  },
-  {
-    title: "Graph-neural-network–based smart contract vulnerability auditing",
-    note: "Detection module contributed to an academic manuscript",
-    status: "ongoing",
   },
   {
     title:
