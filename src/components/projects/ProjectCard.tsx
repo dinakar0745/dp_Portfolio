@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import TiltCard from "@/components/motion/TiltCard";
+import ExternalLink from "@/components/ui/ExternalLink";
 import { TagList } from "@/components/ui/Tag";
 import { card, cardInteractive, iconTile } from "@/components/ui/classes";
 import type { Project } from "@/content/types";
@@ -65,6 +66,19 @@ function Row({ project, headingLevel: Heading = "h2" }: ProjectCardProps) {
               {project.description}
             </p>
             <TagList tags={project.tags} />
+            {project.links && (
+              <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1">
+                {project.links.map((link) => (
+                  <ExternalLink
+                    key={link.href}
+                    href={link.href}
+                    className="text-xs font-mono text-accent inline-flex items-center gap-1 hover:underline"
+                  >
+                    {link.label} <ArrowUpRight size={12} aria-hidden />
+                  </ExternalLink>
+                ))}
+              </p>
+            )}
             {linked && (
               <p className="text-xs font-mono text-accent mt-4 inline-flex items-center gap-1">
                 Read case study <ArrowUpRight size={12} aria-hidden />

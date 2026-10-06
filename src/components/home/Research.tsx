@@ -1,6 +1,7 @@
-import { FileText } from "lucide-react";
+import { ArrowUpRight, FileText } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import BulletList from "@/components/ui/BulletList";
+import ExternalLink from "@/components/ui/ExternalLink";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Section from "@/components/ui/Section";
 import { card } from "@/components/ui/classes";
@@ -34,9 +35,24 @@ export default function Research() {
                 <p className="text-xs text-text-secondary leading-relaxed mb-3 flex-1">
                   {thread.body}
                 </p>
-                <span className="text-xs font-mono text-accent">
+                <span
+                  className={`text-xs font-mono ${thread.published ? "text-success" : "text-accent"}`}
+                >
                   {thread.status}
                 </span>
+                {thread.links && (
+                  <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                    {thread.links.map((link) => (
+                      <ExternalLink
+                        key={link.href}
+                        href={link.href}
+                        className="text-xs font-mono text-accent inline-flex items-center gap-1 hover:underline"
+                      >
+                        {link.label} <ArrowUpRight size={12} aria-hidden />
+                      </ExternalLink>
+                    ))}
+                  </p>
+                )}
               </div>
             </Reveal>
           ))}
@@ -71,11 +87,22 @@ export default function Research() {
                   className="text-accent mt-0.5 shrink-0"
                 />
                 <div>
-                  <p className="text-sm text-text-primary">{m.title}</p>
+                  {m.href ? (
+                    <ExternalLink
+                      href={m.href}
+                      className="text-sm text-text-primary hover:text-accent transition-colors"
+                    >
+                      {m.title}
+                    </ExternalLink>
+                  ) : (
+                    <p className="text-sm text-text-primary">{m.title}</p>
+                  )}
                   <p className="text-xs text-text-secondary mt-0.5">{m.note}</p>
                 </div>
               </div>
-              <span className="text-xs font-mono text-warning border border-border rounded px-2 py-1 self-start whitespace-nowrap">
+              <span
+                className={`text-xs font-mono ${m.published ? "text-success" : "text-warning"} border border-border rounded px-2 py-1 self-start whitespace-nowrap`}
+              >
                 {m.status}
               </span>
             </li>

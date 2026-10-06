@@ -1,6 +1,7 @@
 import {
   Boxes,
   FileText,
+  FlaskConical,
   HardDrive,
   Microscope,
   Network,
@@ -20,6 +21,7 @@ const icons: Record<IconName, LucideIcon> = {
   sprout: Sprout,
   scanSearch: ScanSearch,
   hardDrive: HardDrive,
+  flaskConical: FlaskConical,
 };
 
 export default function ProjectIcon({

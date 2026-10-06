@@ -6,7 +6,8 @@ export type IconName =
   | "network"
   | "sprout"
   | "scanSearch"
-  | "hardDrive";
+  | "hardDrive"
+  | "flaskConical";
 
 export type Project = {
   /** Present when the project has a case study at /projects/<slug>. */
@@ -18,6 +19,27 @@ export type Project = {
   icon: IconName;
   /** Shown in "Selected Projects" on the home page. */
   featured?: boolean;
+  /** External links (paper, code) shown on the projects index. */
+  links?: LinkItem[];
+};
+
+export type LinkItem = { label: string; href: string };
+
+export type ResearchThread = {
+  title: string;
+  body: string;
+  status: string;
+  /** Marks finished work, so the status reads as done rather than pending. */
+  published?: boolean;
+  links?: LinkItem[];
+};
+
+export type Manuscript = {
+  title: string;
+  note: string;
+  status: string;
+  published?: boolean;
+  href?: string;
 };
 
 export type CaseStudySection =

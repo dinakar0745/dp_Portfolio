@@ -16,6 +16,18 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    title: "Encoder or Probe?",
+    subtitle: "Robustness of Pathology Foundation Models",
+    description:
+      "A study of four frozen encoders (Phikon, Phikon-v2, Kaiko ViT-B/16, DINOv2-L) under blur, JPEG compression, and stain shift on NCT-CRC-HE and PatchCamelyon. A linear probe trained on mixed clean and degraded embeddings recovers most of the lost accuracy and reorders the encoders. Published as a Zenodo technical report with code and full results.",
+    tags: ["PyTorch", "Foundation Models", "Linear Probing", "Histopathology"],
+    icon: "flaskConical",
+    links: [
+      { label: "Read the paper", href: "https://doi.org/10.5281/zenodo.23162508" },
+      { label: "Code", href: "https://github.com/dinakar0745/encoder-or-probe" },
+    ],
+  },
+  {
     slug: "nexus-os",
     title: "NEXUS OS",
     subtitle: "Bootable AI Operating Environment",

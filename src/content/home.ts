@@ -1,4 +1,4 @@
-import type { Job } from "./types";
+import type { Job, Manuscript, ResearchThread } from "./types";
 
 export const hero = {
   status: "Independent research in computational pathology",
@@ -7,16 +7,37 @@ export const hero = {
   body: "I work on whole-slide image analysis and the infrastructure that makes it run — GPU-accelerated ML systems, gigapixel image pipelines, and graph neural networks. My long-term interest is building clinically useful, deployable models for digital pathology.",
 };
 
-export const research = {
+/** The published report — one place for its title and links. */
+export const paper = {
+  title:
+    "Is It the Encoder or the Probe? Acquisition-Artifact Robustness of Pathology Foundation Models",
+  venue: "Zenodo technical report",
+  date: "Oct 2026",
+  doi: "10.5281/zenodo.23162508",
+  url: "https://doi.org/10.5281/zenodo.23162508",
+  code: "https://github.com/dinakar0745/encoder-or-probe",
+};
+
+export const research: {
+  title: string;
+  subtitle: string;
+  period: string;
+  threads: ResearchThread[];
+} = {
   title: "Independent Research — Computational Pathology",
   subtitle:
     "Self-directed program building toward doctoral work in medical-imaging ML",
   period: "2026 — Present",
   threads: [
     {
-      title: "Foundation-model robustness to image degradation",
-      body: "A study of how pathology foundation models — Phikon and Phikon-v2 — hold up when the input images are degraded.",
-      status: "In progress · targeting a short paper",
+      title: "Is it the encoder or the probe?",
+      body: "How much of a pathology foundation model's accuracy loss under blur, JPEG compression, and stain shift belongs to the frozen encoder, and how much to the linear probe. Across Phikon, Phikon-v2, Kaiko ViT-B/16, and DINOv2-L on NCT-CRC-HE and PatchCamelyon, a probe trained on a mix of clean and degraded embeddings recovers most of the loss — Phikon-v2 at JPEG quality 15 goes from 76.3% to 92.5% balanced accuracy — and changes which encoder looks most robust.",
+      status: "Published · Zenodo technical report, Oct 2026",
+      published: true,
+      links: [
+        { label: "Paper", href: paper.url },
+        { label: "Code", href: paper.code },
+      ],
     },
     {
       title: "WSI inference platform",
@@ -46,7 +67,14 @@ export const venture = {
   ],
 };
 
-export const manuscripts = [
+export const manuscripts: Manuscript[] = [
+  {
+    title: paper.title,
+    note: `${paper.venue}, ${paper.date} · sole author · DOI ${paper.doi}`,
+    status: "published",
+    published: true,
+    href: paper.url,
+  },
   {
     title: "Graph-neural-network–based smart contract vulnerability auditing",
     note: "Detection module contributed to an academic manuscript",
